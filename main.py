@@ -9,14 +9,16 @@ app = Flask(__name__)
 def merge_json():
     try:
         # Configuración
-        bucket_name = os.environ.get('data_lake_grupo3')
-        folder_name = os.environ.get('metadata')
+        bucket_name = os.environ.get('data_lake_grupo3')  # Cambia el nombre de la variable de entorno
+        folder_name = os.environ.get('google')  # Cambia el nombre de la variable de entorno
 
         client = storage.Client()
         bucket = client.bucket(bucket_name)
         blobs = bucket.list_blobs(prefix=folder_name)
 
         merged_data = []
+        folder_parts = folder_name.split('/')  # Separar la carpeta en partes
+        directory_name = folder_parts[-1] if folder_parts else 'merged_data'  # Obtener el nombre de la carpeta
 
         for blob in blobs:
             if blob.name.endswith('.json'):
@@ -25,7 +27,7 @@ def merge_json():
                 merged_data.append(json_data)
 
         # Guardar el archivo JSON combinado en el bucket
-        merged_blob_name = os.path.join(folder_name, 'merged_data.json')
+        merged_blob_name = os.path.join(folder_name, f'{directory_name}.json')  # Usar el nombre de la carpeta
         merged_blob = bucket.blob(merged_blob_name)
         merged_blob.upload_from_string(json.dumps(merged_data), content_type='application/json')
 
