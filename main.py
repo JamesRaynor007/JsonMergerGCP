@@ -8,8 +8,8 @@ app = Flask(__name__)
 @app.route('/merge-json', methods=['GET'])
 def merge_json():
     # Configuración
-    bucket_name = os.environ.get('BUCKET_NAME')
-    folder_name = os.environ.get('FOLDER_NAME')
+    bucket_name = os.environ.get('data_lake_grupo3')
+    folder_name = os.environ.get('data_lake_grupo3/datasets/google/metadata')
 
     # Inicializa el cliente de Google Cloud Storage
     client = storage.Client()
