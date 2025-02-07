@@ -24,6 +24,11 @@ def merge_json():
                 json_data = json.loads(content)
                 merged_data.append(json_data)
 
+        # Guardar el archivo JSON combinado en el bucket
+        merged_blob_name = os.path.join(folder_name, 'merged_data.json')
+        merged_blob = bucket.blob(merged_blob_name)
+        merged_blob.upload_from_string(json.dumps(merged_data), content_type='application/json')
+
         return jsonify(merged_data)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
