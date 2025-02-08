@@ -14,7 +14,7 @@ def merge_json():
     try:
         # Configuración de las variables de entorno
         bucket_name = os.environ.get('data_lake_grupo3')  
-        folder_name = os.environ.get('google')  
+        folder_name = os.environ.get('google/')  
 
         # Verificación de las variables de entorno
         if not bucket_name or not folder_name:
